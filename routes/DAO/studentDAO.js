@@ -1,5 +1,4 @@
-var mongo= require('mongodb')
-
+var getDB = require('../../common/getDB')
 async function studentpostDAO(data){
 
     // connect with the DB
@@ -7,12 +6,7 @@ async function studentpostDAO(data){
     // Here we have to connect with the DB
 
     // monogoDB Server - Database - Collections - documwnts
-    var url ="mongodb+srv://Jaga:Jaga@2000@myfirstapp.wxlvhp3.mongodb.net/"
-    var mongoclint = mongo.MongoClient;
-    console.log("It's working")
-   var server = await mongoclint.connect("mongodb+srv://Jaga:Jaga%402000@myfirstapp.wxlvhp3.mongodb.net/")
-   
-   var db = server.db("School")
+   var db =await getDB()
    var collection = db.collection('Students');
    const result = await collection.insertOne(data)
 
@@ -24,11 +18,9 @@ async function studentpostDAO(data){
 
 async function studentgetDAO(){
 
-    var mongoclient = mongo.MongoClient;
-    var url = "mongodb+srv://Jaga:Jaga%402000@myfirstapp.wxlvhp3.mongodb.net/";
-    var server =await mongoclient.connect(url);
+    
 
-    var db = server.db("School");
+    var db = await getDB()
     var collection= db.collection("Students");
 
     var result =await collection.find().toArray();
@@ -40,8 +32,16 @@ async function studentgetDAO(){
 
 }
 
+async function loginDAO(data){
+    const {UserID,pwd} = data;
+    const db = await getDB();
+    const collection = db.collection("Students");
+    const result = collection.find({UserID,pwd}).toArray();
+    return result
+}
 
 module.exports={
     studentgetDAO,
-    studentpostDAO
+    studentpostDAO,
+    loginDAO
 }

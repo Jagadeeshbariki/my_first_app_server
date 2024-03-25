@@ -1,9 +1,9 @@
 const expreess = require('express');
-const Stsroute = expreess.Router();
-const {studentRegService, studentGetService }= require('../services/studentRegService')
+const StdRouter = expreess.Router();
+const {studentRegService, studentGetService, loginService }= require('../services/studentRegService')
 // https://localhost:2020/std/std-reg    Post methos
 
-Stsroute.post('/std-reg', async function(req, res, next){   //we have received the rquest here
+StdRouter.post('/std-reg', async function(req, res, next){   //we have received the rquest here
     // First we have to take the data fromt the req
     // And send the res 
    try{
@@ -18,7 +18,13 @@ Stsroute.post('/std-reg', async function(req, res, next){   //we have received t
    }
 })
 
-Stsroute.get('/std-get',async function(req, res){
+StdRouter.post('/login', async function (req, res, next){
+    const {data} = req.body;
+    const result = await loginService(data)
+    res.send(result);
+})
+
+StdRouter.get('/std-get',async function(req, res){
     // same as above mentionsed steps
     console.log("Get request received successfully");
     var result = await studentGetService();
@@ -28,4 +34,4 @@ Stsroute.get('/std-get',async function(req, res){
 
 
 
-module.exports = Stsroute;
+module.exports = StdRouter;

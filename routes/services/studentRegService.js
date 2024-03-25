@@ -1,4 +1,4 @@
-const { studentgetDAO, studentpostDAO }= require("../DAO/studentDAO")
+const { studentgetDAO, studentpostDAO, loginDAO }= require("../DAO/studentDAO")
 
 async function studentRegService(data){
     
@@ -19,7 +19,13 @@ async function studentGetService(){
     return result;
 }
 
+async function loginService(data){
+   const result = await loginDAO(data)
+   return result;
+}
+
 module.exports={
     studentGetService,
-    studentRegService
+    studentRegService,
+    loginService
 }
